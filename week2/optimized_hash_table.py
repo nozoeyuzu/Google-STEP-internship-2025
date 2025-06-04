@@ -17,8 +17,8 @@ def calculate_hash(key):
     assert type(key) == str
     # Note: This is not a good hash function. Do you see why?
     hash = 0
-    for i in key:
-        hash += ord(i)
+    for char in key:  # Using enumerate to get the index of the character
+        hash = ord(char) + 128 * hash   # Adding the index of the character to the hash value
     return hash
 
 
@@ -142,7 +142,7 @@ class HashTable:
     #再ハッシュが必要かを判断する関数
     def rehash_check(self):
         if self.item_count >= self.bucket_size * 0.7:
-            new_bucket_size = self.bucket_size * 2
+            new_bucket_size = self.bucket_size * 2 + 1
         elif self.item_count <= self.bucket_size * 0.3:
             new_bucket_size = self.bucket_size // 2
         else:
