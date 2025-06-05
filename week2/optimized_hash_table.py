@@ -121,9 +121,8 @@ class HashTable:
                 if new_bucket_size != self.bucket_size:
                     self.rehash(new_bucket_size)
                 return True
-            else:
-                prev = item
-                item = item.next
+            prev = item
+            item = item.next
         return False
 
     # Return the total number of items in the hash table.
