@@ -25,6 +25,13 @@ def read_minus(line, index):
     token = {'type': 'MINUS'}
     return token, index + 1
 
+def read_multiply(line, index):
+    token = {'type': 'MULTIPLY'}
+    return token, index + 1
+
+def read_divide(line, index):
+    token = {'type': 'DIVIDE'}
+    return token, index + 1
 
 def tokenize(line):
     tokens = []
