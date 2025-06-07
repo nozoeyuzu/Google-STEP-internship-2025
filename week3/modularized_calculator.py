@@ -43,6 +43,10 @@ def tokenize(line):
             (token, index) = read_plus(line, index)
         elif line[index] == '-':
             (token, index) = read_minus(line, index)
+        elif line[index] == '*':
+            (token, index) = read_multiply(line, index) 
+        elif line[index] == '/':
+            (token, index) = read_divide(line, index)
         else:
             print('Invalid character found: ' + line[index])
             exit(1)
