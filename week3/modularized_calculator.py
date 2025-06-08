@@ -53,8 +53,32 @@ def tokenize(line):
         tokens.append(token)
     return tokens
 
+def evaluate_multiply_divide(tokens):
+    new_tokens = []
+    index = 0
+    while index < len(tokens):
+        token = tokens[index]
+        if token['type'] == 'NUMBER':
+            number = token['number']
+            while index + 1 < len(tokens) and (tokens[index + 1]['type'] == 'MULTIPLY' or tokens[index + 1]['type'] == 'DIVIDE'):
+                operater = tokens[index + 1]['type']
+                next_number = tokens[index + 2]['number']
+                if operater == 'MULTIPLY':
+                    number *= next_number   
+                elif operater == 'DIVIDE':
+                    if next_number == 0:
+                        print('Division by zero is not allowed.')
+                        exit(1)
+                    number /= next_number
+                index += 2
+            new_tokens.append({'type': 'NUMBER', 'number': number})
+            index += 1
+        else:
+            new_tokens.append(token)
+            index += 1
+    return new_tokens
 
-def evaluate(tokens):
+def evaluate_plus_minus(tokens):
     answer = 0
     tokens.insert(0, {'type': 'PLUS'}) # Insert a dummy '+' token
     index = 1
@@ -73,7 +97,8 @@ def evaluate(tokens):
 
 def test(line):
     tokens = tokenize(line)
-    actual_answer = evaluate(tokens)
+    sub_answer = evaluate_multiply_divide(tokens)
+    actual_answer = evaluate_plus_minus(sub_answer)
     expected_answer = eval(line)
     if abs(actual_answer - expected_answer) < 1e-8:
         print("PASS! (%s = %f)" % (line, expected_answer))
@@ -86,6 +111,8 @@ def run_test():
     print("==== Test started! ====")
     test("1+2")
     test("1.0+2.1-3")
+    test("1+2*3")
+    test("1+2/3")
     print("==== Test finished! ====\n")
 
 run_test()
@@ -94,5 +121,6 @@ while True:
     print('> ', end="")
     line = input()
     tokens = tokenize(line)
-    answer = evaluate(tokens)
+    simplified_tokens = evaluate_multiply_divide(tokens)
+    answer = evaluate_plus_minus(simplified_tokens)
     print("answer = %f\n" % answer)
