@@ -113,6 +113,9 @@ def run_test():
     test("1.0+2.1-3")
     test("1+2*3")
     test("1+2/3")
+    test("1+2*3/4")
+    test("1+2*2*2*2")
+    test("27/3/3")
     print("==== Test finished! ====\n")
 
 run_test()
