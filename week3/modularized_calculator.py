@@ -33,6 +33,14 @@ def read_divide(line, index):
     token = {'type': 'DIVIDE'}
     return token, index + 1
 
+def read_left_parenthesis(line, index):
+    token = {'type': 'LEFT_PARENTHESIS'}
+    return token, index + 1
+
+def read_right_parenthesis(line, index):
+    token = {'type': 'RIGHT_PARENTHESIS'}
+    return token, index + 1
+
 def tokenize(line):
     tokens = []
     index = 0
@@ -47,11 +55,34 @@ def tokenize(line):
             (token, index) = read_multiply(line, index) 
         elif line[index] == '/':
             (token, index) = read_divide(line, index)
+        elif line[index] == '(':
+            (token, index) = read_left_parenthesis(line, index)
+        elif line[index] == ')':
+            (token, index) = read_right_parenthesis(line, index)
         else:
             print('Invalid character found: ' + line[index])
             exit(1)
         tokens.append(token)
     return tokens
+
+def evaluate_parenthesis(tokens, index):
+    new_tokens = []
+    while index < len(tokens):
+        token = tokens[index]
+        if token['type'] == 'LEFT_PARENTHESIS':
+            value, index = evaluate_parenthesis(tokens, index + 1)
+            new_tokens.append({'type': 'NUMBER', 'number': value})
+            continue
+        elif token['type'] == 'RIGHT_PARENTHESIS':
+            simplified_tokens = evaluate_multiply_divide(new_tokens)
+            result = evaluate_plus_minus(simplified_tokens)
+            return result, index + 1
+        else:
+            new_tokens.append(token)
+        index += 1
+    simplified_tokens = evaluate_multiply_divide(new_tokens)
+    result = evaluate_plus_minus(simplified_tokens)
+    return result, index
 
 def evaluate_multiply_divide(tokens):
     new_tokens = []
@@ -97,8 +128,7 @@ def evaluate_plus_minus(tokens):
 
 def test(line):
     tokens = tokenize(line)
-    sub_answer = evaluate_multiply_divide(tokens)
-    actual_answer = evaluate_plus_minus(sub_answer)
+    actual_answer, _ = evaluate_parenthesis(tokens, 0)
     expected_answer = eval(line)
     if abs(actual_answer - expected_answer) < 1e-8:
         print("PASS! (%s = %f)" % (line, expected_answer))
@@ -116,6 +146,9 @@ def run_test():
     test("1+2*3/4")
     test("1+2*2*2*2")
     test("27/3/3")
+    test("(3.0+4*(2-1))/5")
+    test("(7+8)*2")
+    test("1+(2+(3+4)*5)+6")
     print("==== Test finished! ====\n")
 
 run_test()
@@ -124,6 +157,5 @@ while True:
     print('> ', end="")
     line = input()
     tokens = tokenize(line)
-    simplified_tokens = evaluate_multiply_divide(tokens)
-    answer = evaluate_plus_minus(simplified_tokens)
+    answer, _ = evaluate_parenthesis(tokens, 0)
     print("answer = %f\n" % answer)
