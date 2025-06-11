@@ -65,24 +65,26 @@ def tokenize(line):
         tokens.append(token)
     return tokens
 
-def evaluate_parenthesis(tokens, index):
+def evaluate_parenthesis(tokens):
     new_tokens = []
+    left_count = 0
+    left_index = 0
+    index = 0
     while index < len(tokens):
         token = tokens[index]
         if token['type'] == 'LEFT_PARENTHESIS':
-            value, index = evaluate_parenthesis(tokens, index + 1)
-            new_tokens.append({'type': 'NUMBER', 'number': value})
-            continue
+            left_count += 1
+            if left_count == 1:
+                left_index = index + 1
         elif token['type'] == 'RIGHT_PARENTHESIS':
-            simplified_tokens = evaluate_multiply_divide(new_tokens)
-            result = evaluate_plus_minus(simplified_tokens)
-            return result, index + 1
-        else:
+            left_count -= 1
+            if left_count == 0:
+                number = evaluate(tokens[left_index : index])
+                new_tokens.append({'type': 'NUMBER', 'number': number})
+        elif left_count == 0:
             new_tokens.append(token)
         index += 1
-    simplified_tokens = evaluate_multiply_divide(new_tokens)
-    result = evaluate_plus_minus(simplified_tokens)
-    return result, index
+    return new_tokens
 
 def evaluate_multiply_divide(tokens):
     new_tokens = []
@@ -125,10 +127,15 @@ def evaluate_plus_minus(tokens):
         index += 1
     return answer
 
+def evaluate(tokens):
+    tokens = evaluate_parenthesis(tokens)
+    tokens = evaluate_multiply_divide(tokens)
+    return evaluate_plus_minus(tokens)
+
 
 def test(line):
     tokens = tokenize(line)
-    actual_answer, _ = evaluate_parenthesis(tokens, 0)
+    actual_answer = evaluate(tokens)
     expected_answer = eval(line)
     if abs(actual_answer - expected_answer) < 1e-8:
         print("PASS! (%s = %f)" % (line, expected_answer))
@@ -139,6 +146,7 @@ def test(line):
 # Add more tests to this function :)
 def run_test():
     print("==== Test started! ====")
+    test("(1)")
     test("1+2")
     test("1.0+2.1-3")
     test("1+2*3")
@@ -154,7 +162,8 @@ def run_test():
     test("((2+3)*4)")
     test("(1+(2*(3+(4*5))))") 
     test("1+2-3+4-5+6")      
-    test("0.1+0.2")    
+    test("0.1+0.2")   
+    test("(1+2)*(3+4)") 
     print("==== Test finished! ====\n")
 
 run_test()
@@ -163,5 +172,5 @@ while True:
     print('> ', end="")
     line = input()
     tokens = tokenize(line)
-    answer, _ = evaluate_parenthesis(tokens, 0)
+    answer = evaluate(tokens)
     print("answer = %f\n" % answer)
