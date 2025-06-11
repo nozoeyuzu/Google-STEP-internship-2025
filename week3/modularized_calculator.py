@@ -93,7 +93,7 @@ def evaluate_multiply_divide(tokens):
         token = tokens[index]
         if token['type'] == 'NUMBER':
             number = token['number']
-            while index + 1 < len(tokens) and (tokens[index + 1]['type'] == 'MULTIPLY' or tokens[index + 1]['type'] == 'DIVIDE'):
+            while index + 1 < len(tokens) and (tokens[index + 1]['type'] in ['MULTIPLY','DIVIDE']):
                 operater = tokens[index + 1]['type']
                 next_number = tokens[index + 2]['number']
                 if operater == 'MULTIPLY':
