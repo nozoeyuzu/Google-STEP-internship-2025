@@ -69,15 +69,57 @@ class Wikipedia:
                 print(self.titles[dst], link_count_max)
         print()
 
+    #ページIDを返す関数
+    def get_page_id(self, title):
+        for page_id, page_title in self.titles.items():
+            if page_title == title:
+                return page_id
+            
+        return None
+
 
     # Homework #1: Find the shortest path.
     # 'start': A title of the start page.
     # 'goal': A title of the goal page.
+    #BFSを使って最短経路を探索する、キューを使う
     def find_shortest_path(self, start, goal):
-        #------------------------#
-        # Write your code here!  #
-        #------------------------#
-        pass
+        #startとgoalのページIDを取得
+        start_id = self.get_page_id(start)
+        goal_id = self.get_page_id(goal)
+
+        if start_id == None or goal_id == None:
+            print(start_id,"または",goal_id,"のどちらかが存在しません")
+            return False
+        
+        queue = collections.deque() #キューの初期化
+        visited = {}
+        visited[start_id] = True #訪問済みのページIDとしてフラグを設定
+        parent = {} #通過してきたページの親を記録
+        queue.append(start_id) #スタートページをキューに追加
+
+        #BFSのループ
+        while queue:
+            current_id = queue.popleft()
+            if current_id == goal_id:
+                #goalページに到達した場合、パスを復元
+                path = []
+                while current_id != start_id:
+                    path.append(current_id)
+                    current_id = parent[current_id]
+                path.append(start_id)
+                path.reverse() #パスを逆順にする
+                titles = [self.titles[page_id] for page_id in path] #ページタイトルを取得
+                print("->".join(titles))
+                return
+            
+            #goalページに到達していない場合、隣接するページをキューに追加
+            for neighbor_id in self.links[current_id]:
+                if neighbor_id not in visited:
+                    visited[neighbor_id] = True #フラグを設定
+                    parent[neighbor_id] = current_id #親ページを記録
+                    queue.append(neighbor_id) #隣接ノードをキューに追加
+
+        print("No path found from", start, "to", goal)
 
 
     # Homework #2: Calculate the page ranks and print the most popular pages.
@@ -127,7 +169,7 @@ if __name__ == "__main__":
     # Example
     wikipedia.find_most_linked_pages()
     # Homework #1
-    wikipedia.find_shortest_path("渋谷", "パレートの法則")
+    wikipedia.find_shortest_path("A", "C")
     # Homework #2
     wikipedia.find_most_popular_pages()
     # Homework #3 (optional)
