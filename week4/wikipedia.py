@@ -124,10 +124,42 @@ class Wikipedia:
 
     # Homework #2: Calculate the page ranks and print the most popular pages.
     def find_most_popular_pages(self):
-        #------------------------#
-        # Write your code here!  #
-        #------------------------#
-        pass
+        old_page_ranks = {} #更新前のページランク
+        new_page_ranks = {} #更新後のページランク
+        n = len(self.titles) #ページの総数
+        for title_id in self.titles.keys():
+            old_page_ranks[title_id] = 1.0/n #初期値として1.0/nを設定
+            new_page_ranks[title_id] = 0.0 #初期値として0.0を設定
+        damping_factor = 0.85 #ダンピングファクターの設定
+
+        neighbor_node = {page_id: [] for page_id in self.titles.keys()} #自分がどの隣接ノードからリンクされているかを保持
+        for page_id, links in self.links.items():
+            for link in links:
+                neighbor_node[link].append(page_id)
+
+        #ページランクの計算
+        for _ in range(100):  # 最大100回の反復
+            for page_id in self.titles.keys():
+                new_page_ranks[page_id] = (1 - damping_factor) / n
+
+                for neighbor in neighbor_node[page_id]:
+                    if len(self.links[neighbor]) > 0:
+                        new_page_ranks[page_id] += damping_factor * (old_page_ranks[neighbor] / len(self.links[neighbor]))
+
+            #収束判定とold_page_ranksの更新
+            diff = max(abs(new_page_ranks[page_id] - old_page_ranks[page_id]) for page_id in self.titles.keys())
+            old_page_ranks, new_page_ranks = new_page_ranks, old_page_ranks  # 更新前と更新後を入れ替え
+            if diff < 1e-6:  # 十分に収束したら終了
+                break
+
+        top10_pages = sorted(old_page_ranks.items(), key=lambda x: x[1], reverse=True)[:10]  # ページランクの高い上位10ページを取得
+        print("The most popular pages are:")
+        for page_id, rank in top10_pages:
+            print(f"{self.titles[page_id]}: {rank:.6f}")
+        
+        
+
+
 
 
     # Homework #3 (optional):
