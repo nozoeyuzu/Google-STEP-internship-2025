@@ -17,7 +17,7 @@ class Wikipedia:
         self.links = {}
 
         # Read the pages file into self.titles.
-        with open(pages_file) as file:
+        with open(pages_file, encoding="utf-8") as file:
             for line in file:
                 (id, title) = line.rstrip().split(" ")
                 id = int(id)
@@ -201,7 +201,7 @@ if __name__ == "__main__":
     # Example
     wikipedia.find_most_linked_pages()
     # Homework #1
-    wikipedia.find_shortest_path("A", "C")
+    wikipedia.find_shortest_path("渋谷", "パレートの法則")
     # Homework #2
     wikipedia.find_most_popular_pages()
     # Homework #3 (optional)
