@@ -133,16 +133,16 @@ class Wikipedia:
         damping_factor = 0.85 #ダンピングファクターの設定
 
         neighbor_node = {page_id: [] for page_id in self.titles.keys()} #自分がどの隣接ノードからリンクされているかを保持
-        for page_id, links in self.links.items():
+        for page_id, links in self.links.items(): #リンクされているページを取得
             for link in links:
                 neighbor_node[link].append(page_id)
 
         #ページランクの計算
         for _ in range(100):  # 最大100回の反復
             for page_id in self.titles.keys():
-                new_page_ranks[page_id] = (1 - damping_factor) / n
-
-                for neighbor in neighbor_node[page_id]:
+                new_page_ranks[page_id] = (1 - damping_factor) / n # 初期化
+                # 自分をリンクしているページからのページランクを加算
+                for neighbor in neighbor_node[page_id]: 
                     if len(self.links[neighbor]) > 0:
                         new_page_ranks[page_id] += damping_factor * (old_page_ranks[neighbor] / len(self.links[neighbor]))
 
