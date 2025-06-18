@@ -1,0 +1,74 @@
+python wikipedia.py pages_large.txt links_large.txt
+Finished reading pages_large.txt
+Finished reading links_large.txt
+
+The longest titles are:
+Lopadotemachoselachogaleokranioleipsanodrimhypotrimmatosilphiokarabomelitokatakechymenokichlepikossyphophattoperisteralektryonoptekephalliokigklopeleiolagoiosiraiobaphetraganopterygon
+Lopadotemachoselachogaleokranioleipsanodrimhypotrimmatosilphioparaomelitokatakechymenokichlepikossyphophattoperisteralektryonoptekephalliokigklopeleiolagoiosiraiob・トルマッシュ＝トルマッシュ
+地域における一般乗合旅客自動車運送事業及び銀行業に係る基盤的なサービスの提供の維持を図るための私的独占の禁止及び公正取引の確保に関する法律の特例に関する法律       
+鈴懸の木の道で「君の微笑みを夢に見る」と言ってしまったら僕たちの関係はどう変わってしまうのか、僕なりに何日か考えた上でのやや気恥ずかしい結論のようなもの
+6086555670238378989670371734243169622657830773351885970528324860512791691264
+日本国とアメリカ合衆国との間の相互協力及び安全保障条約第六条に基づく施設及び区域並びに日本国における合衆国軍隊の地位に関する協定の実施に伴う刑事特別法
+ベンティアドショットヘーゼルナッツバニラアーモンドキャラメルエキストラホイップキャラメルソースモカソースランバチップチョコレートクリームフラペチーノ
+
+The most linked pages are:
+日本 366422
+
+渋谷->マクドナルド->Twitter->パレートの法則
+0 0.003439
+1 0.002149
+2 0.000401
+3 0.000332
+4 0.000034
+5 0.000018
+6 0.000012
+7 0.000009
+8 0.000006
+9 0.000005
+10 0.000003
+11 0.000002
+12 0.000002
+13 0.000001
+14 0.000001
+The most popular pages are:
+日本: 0.002059
+英語: 0.002059
+VIAF_(識別子): 0.001715
+バーチャル国際典拠ファイル: 0.001495
+アメリカ合衆国: 0.001223
+ISBN: 0.001220
+ISNI_(識別子): 0.000928
+国際標準名称識別子: 0.000840
+地理座標系: 0.000818
+SUDOC_(識別子): 0.000684
+
+
+python wikipedia.py pages_medium.txt links_medium.txt
+The most linked pages are:
+ISBN 52641
+
+渋谷->マクドナルド->Twitter->パレートの法則
+0 0.001694
+1 0.000564
+2 0.000231
+3 0.000043
+4 0.000027
+5 0.000020
+6 0.000013
+7 0.000008
+8 0.000005
+9 0.000003
+10 0.000002
+11 0.000001
+12 0.000001
+The most popular pages are:
+英語: 0.002307
+ISBN: 0.001469
+2006年: 0.000807
+2005年: 0.000770
+2007年: 0.000754
+東京都: 0.000737
+昭和: 0.000704
+2004年: 0.000683
+2003年: 0.000621
+2000年: 0.000616
