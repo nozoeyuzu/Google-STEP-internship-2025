@@ -11,7 +11,7 @@ def distance(city1, city2):
 def solve(cities):
     N = len(cities)
 
-    dist = [[0] * N for i in range(N)]
+    dist = [[0] * N for _ in range(N)]
     for i in range(N):
         for j in range(i, N):
             dist[i][j] = dist[j][i] = distance(cities[i], cities[j])
@@ -32,15 +32,16 @@ def two_opt(cities, tour):
     def dist(i, j):
         dx = cities[i][0] - cities[j][0]
         dy = cities[i][1] - cities[j][1]
-        return math.hypot(dx, dy)
+        return math.hypot(dx, dy) #原点からの距離を計算
     
+    #改善があったかどうかをフラグで記録し改善がなくなるまでループ
     n = len(tour)
     improved = True
     while improved:
         improved = False
 
-        for i in range(1, n-2):
-            for j in range(i + 1, n-1):
+        for i in range(1, n-2): 
+            for j in range(i + 1, n-1): #隣り合う辺を選ばないように
                 a, b = tour[i - 1], tour[i]
                 c, d = tour[j], tour[j + 1]
 
