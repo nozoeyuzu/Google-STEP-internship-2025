@@ -27,7 +27,8 @@ def solve(cities):
         tour.append(next_city)
         current_city = next_city
     return tour
-
+#最近隣法で初期ツアーを作成後2-opt法で改善する
+#2-opt法は隣接する辺を入れ替えることでツアーの長さを短くする手法
 def two_opt(cities, tour):
     def dist(i, j):
         dx = cities[i][0] - cities[j][0]
