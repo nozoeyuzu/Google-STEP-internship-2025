@@ -53,6 +53,7 @@ def two_opt(cities, tour):
                     improved = True
     return tour
 
+#python my_solver.py input_0.csv > output_0.csvでoutput_0.csvに結果が出力される
 if __name__ == '__main__':
     assert len(sys.argv) == 2, "入力ファイルを１つだけ指定してください"
     cities = read_input(sys.argv[1])  # [(x,y),...]
