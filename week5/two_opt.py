@@ -41,10 +41,10 @@ def two_opt(cities, tour):
     while improved:
         improved = False
 
-        for i in range(1, n-2): 
-            for j in range(i + 1, n-1): #隣り合う辺を選ばないように
+        for i in range(1, n-1): 
+            for j in range(i + 1, n): #隣り合う辺を選ばないように
                 a, b = tour[i - 1], tour[i]
-                c, d = tour[j], tour[j + 1]
+                c, d = tour[j], tour[(j + 1) % n] # j+1がnを超えないように
 
                 before = dist(a, b) + dist(c, d)
                 after = dist(a, c) + dist(b, d)
