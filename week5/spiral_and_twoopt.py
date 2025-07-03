@@ -24,7 +24,7 @@ def two_opt(cities, tour):
     def dist(i, j):
         dx = cities[i][0] - cities[j][0]
         dy = cities[i][1] - cities[j][1]
-        return math.hypot(dx, dy) #原点からの距離を計算
+        return math.hypot(dx, dy) #計算する都市の座標 (x, y) から重心 (center_x, center_y) までの距離
     
     #改善があったかどうかをフラグで記録し改善がなくなるまでループ
     n = len(tour)
