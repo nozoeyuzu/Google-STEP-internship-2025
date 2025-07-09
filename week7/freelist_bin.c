@@ -11,7 +11,7 @@ static int size_to_bin(size_t size) {
     int bin = 0;
     size_t limit = 8;
     while (bin + 1 < NUM_BINS && size > limit) {
-        limit <<= 1;  // 8→16→32→…
+        limit <<= 1;  // 8bitごとに
         bin++;
     }
     return bin;
@@ -29,7 +29,7 @@ typedef struct {
 
 static my_heap_t my_heap;
 
-// 初期化：全ビンを空に
+// 初期化
 void my_initialize() {
     for (int i = 0; i < NUM_BINS; i++) {
         my_heap.bins[i] = NULL;
@@ -47,7 +47,6 @@ void my_free(void *ptr) {
 
 // malloc：自分のビン→上位ビンへ順に探し、First‐fit で切り出し
 void *my_malloc(size_t size) {
-    // 要求は 8 バイト以上、8 の倍数で来る想定
     int start_bin = size_to_bin(size);
 
     for (int bin = start_bin; bin < NUM_BINS; bin++) {
